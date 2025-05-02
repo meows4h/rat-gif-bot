@@ -50,7 +50,7 @@ def run_discord_bot():
     @tasks.loop(minutes=1)
     async def check_loop():
 
-        channel = client.get_channel(1210511366344151090)
+        channel = client.get_channel(1346072552493027429)
 
         global last_gif_sent
         pst_timezone = timezone('US/Pacific')
