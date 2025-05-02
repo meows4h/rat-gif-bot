@@ -15,5 +15,5 @@ def get_rat(number) {
 
     for idx, row in enumerate(data):
         if row[0] == number: # checking for the matching date / number
-            return row[1]
+            return f'{row[1]}'
 }

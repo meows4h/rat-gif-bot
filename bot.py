@@ -88,7 +88,7 @@ def run_discord_bot():
         user_message = str(message.content)
         channel = str(message.channel)
 
-        print(f'{username} said: "{user_message}" ({channel})')
+        # print(f'{username} said: "{user_message}" ({channel})')
 
         # command and ping check.
         if channel == 'Direct Message with Unknown User':
