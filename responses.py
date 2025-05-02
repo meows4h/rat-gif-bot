@@ -22,7 +22,7 @@ def get_response(msg_data, message: str) -> str:
         curr_day = datetime_pst.day
         
         prelim_msg = ''
-        if f'{number}' == curr_day:
+        if f'{number}' == f'{curr_day}':
             prelim_msg = f'CONGRATS YOU GOT THE CORRECT DAY!!!! TODAY IS THE {number}ST OF THE MONTH'
         else:
             prelim_msg = f'unfortunately it is not the {number}nd of the month.... here is the rat gif anyways!!'
