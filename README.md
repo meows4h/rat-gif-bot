@@ -1,2 +1,2 @@
-# RatGifBot
+# Rat GIF Bot
 rat generator
