@@ -5,16 +5,14 @@ import rat
 from datetime import datetime
 from pytz import timezone
 
-last_gif_sent = '0'
+pst_timezone = timezone('US/Pacific')
+datetime_pst = datetime.now(pst_timezone)
+last_gif_sent = datetime_pst.day # add a -1 here or something to make this resend on open
 
 async def send_message(message, user_message, is_private):
     try:
-        response, embed = responses.get_response(message, user_message)
-
-        if embed != None:
-            await message.author.send(response, embed=embed) if is_private else await message.channel.send(response, embed=embed)
-        else:
-            await message.author.send(response) if is_private else await message.channel.send(response)
+        response = responses.get_response(message, user_message)
+        await message.author.send(response) if is_private else await message.channel.send(response)
 
     except Exception as e:
         print(e)
@@ -26,7 +24,7 @@ def run_discord_bot():
     with open('token.txt') as token_file:
         TOKEN = token_file.read()
 
-    print(TOKEN)
+    # print(TOKEN)
 
     intents = discord.Intents.default()
     intents.message_content = True
@@ -52,7 +50,7 @@ def run_discord_bot():
     @tasks.loop(minutes=1)
     async def check_loop():
 
-        channel = client.get_channel(1346072552493027429)
+        channel = client.get_channel(1210511366344151090)
 
         global last_gif_sent
         pst_timezone = timezone('US/Pacific')
@@ -98,12 +96,12 @@ def run_discord_bot():
         if channel == 'Direct Message with Unknown User':
             await send_message(message, user_message, is_private=True)
         else:
-            if '' in user_message: # prefix goes here
-                user_message = user_message[1:] # inclusive slice
+            if '!rat ' in user_message: # prefix goes here
+                user_message = user_message[5:] # inclusive slice
                 print(user_message)
                 await send_message(message, user_message, is_private=False)
-            elif '<@1254202562606006373>' in user_message:
-                user_message = user_message.replace('<@1254202562606006373>', '')
+            elif '<@1367966587184746688>' in user_message:
+                user_message = user_message.replace('<@1367966587184746688>', '')
                 if user_message[0] == ' ':
                     user_message = user_message[1:]
                 if user_message[len(user_message)-1] == ' ':
