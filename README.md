@@ -1,0 +1,2 @@
+# RatGifBot
+rat generator
