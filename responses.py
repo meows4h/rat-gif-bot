@@ -21,7 +21,7 @@ def get_response(msg_data, message: str) -> str:
         number = random.randint(1, 2)
         pst_timezone = timezone('US/Pacific')
         datetime_pst = datetime.now(pst_timezone)
-        curr_day = datetime_pst.strftime('%d')
+        curr_day = datetime_pst.day
         
         prelim_msg = ''
         if f'{number}' == curr_day:
@@ -29,7 +29,7 @@ def get_response(msg_data, message: str) -> str:
         else:
             prelim_msg = f'unfortunately it is not the {number}nd of the month.... here is the rat gif anyways!!'
 
-        rat_gif = get_rat(number)
+        rat_gif = rat.get_rat(number)
         final_msg = f'{prelim_msg} {rat_gif}'
 
         return rat_gif

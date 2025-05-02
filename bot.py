@@ -36,10 +36,10 @@ def run_discord_bot():
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
-        game = discord.Game('Processing the rat pack...')
+        game = discord.Game('with the rat pack!')
         await client.change_presence(status=discord.Status.idle, activity=game)
 
-        channel = client.get_channel(1276792993809961041)
+        channel = client.get_channel(1346072552493027429)
         # await channel.send(embed=main_embed)
 
         try:
@@ -52,16 +52,20 @@ def run_discord_bot():
     @tasks.loop(minutes=1)
     async def check_loop():
 
+        channel = client.get_channel(1346072552493027429)
+
         global last_gif_sent
         pst_timezone = timezone('US/Pacific')
         datetime_pst = datetime.now(pst_timezone)
-        curr_day = datetime_pst.strftime('%d')
+        curr_day = datetime_pst.day
 
         gif_url = ''
 
         if curr_day != last_gif_sent:
             last_gif_sent = curr_day
             gif_url = rat.get_rat(curr_day)
+
+        # print(f'GIF URL: {gif_url}, TRUE? {gif_url != ''}')
 
         if gif_url != '':
             await channel.send(gif_url)
