@@ -1,7 +1,11 @@
 import discord
 from discord.ext import tasks, commands
 import responses
-import csv
+import rat
+from datetime import datetime
+from pytz import timezone
+
+last_gif_sent = '0'
 
 async def send_message(message, user_message, is_private):
     try:
@@ -48,15 +52,29 @@ def run_discord_bot():
     @tasks.loop(minutes=1)
     async def check_loop():
 
+        global last_gif_sent
+        pst_timezone = timezone('US/Pacific')
+        datetime_pst = datetime.now(pst_timezone)
+        curr_day = datetime_pst.strftime('%d')
+
+        gif_url = ''
+
+        if curr_day != last_gif_sent:
+            last_gif_sent = curr_day
+            gif_url = rat.get_rat(curr_day)
+
+        if gif_url != '':
+            await channel.send(gif_url)
+
         # creating the message to pass as the status based on the array
-        status_message = ''
+        # status_message = ''
 
         # update status message
-        activity_status = discord.Activity(
-            type=discord.ActivityType.watching, 
-            name='rat obtainer',
-            state=f'{status_message}')
-        await client.change_presence(status=discord.Status.idle, activity=activity_status)
+        # activity_status = discord.Activity(
+        #     type=discord.ActivityType.watching, 
+        #     name='rat obtainer',
+        #     state=f'{status_message}')
+        # await client.change_presence(status=discord.Status.idle, activity=activity_status)
 
     @client.event
     async def on_message(message):
@@ -76,8 +94,8 @@ def run_discord_bot():
         if channel == 'Direct Message with Unknown User':
             await send_message(message, user_message, is_private=True)
         else:
-            if '~meow ' in user_message:
-                user_message = user_message[6:]
+            if '' in user_message: # prefix goes here
+                user_message = user_message[1:] # inclusive slice
                 print(user_message)
                 await send_message(message, user_message, is_private=False)
             elif '<@1254202562606006373>' in user_message:
